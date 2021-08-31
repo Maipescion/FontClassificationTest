@@ -16,9 +16,4 @@ public class PixelHandler : MonoBehaviour
         
         image.color = new Color(color, color, color);
     }
-
-    public void GetPrediction()
-    {
-        
-    }
 }

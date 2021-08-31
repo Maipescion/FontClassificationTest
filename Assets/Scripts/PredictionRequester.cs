@@ -9,6 +9,7 @@ public class PredictionRequester : RunAbleThread
     private RequestSocket client;
 
     private Action<float[]> onOutputReceived;
+    private Action<Exception> onFail;
     
     protected override void Run()
     {
@@ -56,8 +57,13 @@ public class PredictionRequester : RunAbleThread
         }
         catch (Exception e)
         {
+            onFail(e);
         }
     }
 
-    public void SetOnTextReceivedListener(Action<float[]> onOutputReceived) => this.onOutputReceived = onOutputReceived;
+    public void SetOnTextReceivedListener(Action<float[]> onOutputReceived, Action<Exception> fallback)
+    {
+        this.onOutputReceived = onOutputReceived;
+        onFail = fallback;
+    }
 }

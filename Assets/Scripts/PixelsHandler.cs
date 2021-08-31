@@ -35,7 +35,7 @@ public class PixelsHandler : MonoBehaviour
     private void Update()
     {
         predictionText.text = prediction;
-        
+
         if (!Input.GetMouseButton(0)) return;
 
         var mousePosition = Input.mousePosition;
@@ -58,8 +58,14 @@ public class PixelsHandler : MonoBehaviour
         foreach (var pixel in pixels) pixel.ChangePixelColor(colorSwitch.isOn ? 1 : 0);
         prediction = "";
     }
+
+    public void PredictUI()
+    {
+        if (constantPrediction.isOn) return;
+        Predict();
+    }
     
-    public void Predict()
+    private void Predict()
     {
         var input = ReadPixels();
         client.Predict(input, output =>
@@ -67,6 +73,9 @@ public class PixelsHandler : MonoBehaviour
             var outputMax = output.Max();
             var maxIndex = Array.IndexOf(output, outputMax);
             prediction = "Prediction: " + Convert.ToChar(64 + maxIndex);
+        }, error =>
+        {
+            
         });
     }
 
